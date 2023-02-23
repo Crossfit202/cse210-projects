@@ -43,7 +43,7 @@ class Program
 
     static void DisplayResult(string name, int squareNum)
     {
-        Console.WriteLine($"{name}, the square of you favorite number is {squareNum}");
+        Console.WriteLine($"{name}, the square of your favorite number is {squareNum}");
     }
 
 
