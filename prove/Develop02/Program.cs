@@ -54,3 +54,7 @@ class Program
     }
 }
 
+//The way I exceeded requirements on this projects was adding a conditional statement in my 
+//PromptGenerator class. I made a new set of prompts that would be chosen from is the day 
+//is Sunday related to church. I reserached how to get the day of the week and it's something 
+//that will help people keep the sabbath holy and remember their spiritual experiences in the journal.
