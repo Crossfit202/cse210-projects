@@ -21,7 +21,7 @@ class Word
 
     public string getWord()
     {
-        return _word.ToString();
+        return _word;
     }
 
     public void hide()
