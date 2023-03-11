@@ -13,9 +13,9 @@ class Scripture
     List<Word> _words = new List<Word>();
 
 
-    public Scripture()
+    public Scripture(Reference reference)
     {
-
+        _reference = reference;
     }
     public Scripture(Reference reference, string scriptureText, int wordsToHide)
     {
@@ -96,14 +96,14 @@ class Scripture
 
     public void displayScripture()
     {   
+        
         var result = string.Empty;
         foreach (Word w in _words)
         {
             result += ($" {w.getWord()}");
-        }
-        string display = string.Format("{0} {1}", _reference.toSingleVerse(), result);
+        }        
 
-        Console.WriteLine(display);
+        Console.WriteLine($"{_reference.toSingleVerse()} {result}");
     }
 
     public bool IsCompletelyHidden()
