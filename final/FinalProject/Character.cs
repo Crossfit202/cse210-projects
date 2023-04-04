@@ -1,6 +1,5 @@
-public class Character 
+public abstract class Character 
 {
-    protected string _name;
-    protected string _description;
-    protected int _choices;
+    protected string _randomString;
+    public abstract string RoomChoice(string name, List<string> list);
 }
