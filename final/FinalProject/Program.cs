@@ -6,9 +6,10 @@ class Program
         
         Timer timer = new Timer();
         Selector selector = new Selector();
+        Comparator compare = new Comparator();
 
         Console.Clear();
-        Console.WriteLine("Welcome to Escape the Mansion!");
+        Console.WriteLine("Welcome to The Mansion!");
         Thread.Sleep(3000);
         Console.WriteLine();
        
@@ -26,112 +27,189 @@ class Program
             {
                 case 1: //Play against computer
 
-                CPU computer = new CPU();
-                Player player = new Player();
+                Player player = new Player(); 
                 
                 Console.Clear();
                 player.SetName();
                 string playerName = player.GetName();
                 player.SetCharacter(1, false, "none");
-                timer.SetDuration();
+                timer.SetLevel();
+                int level = timer.GetLevel();
+                CPU computer = new CPU(level);
                 int duration = timer.GetDuration();
+                int newDuration = duration;
+                int hideSuccess = 0; 
+                int findSuccess = 0;
                 
                 menu.PrintMessage("In this gamemode you will play against the computer. \nYou will use W A S and D to make your choice");
+            
 
                 selector.MakeList();
 
-                while (duration != 0)
+                do
                 {
+                    List<string> randomRooms = selector.SelectRandomRooms(level); //List of 4 random rooms
                     
-                    List<string> randomRooms = selector.SelectRandomRooms();
-                    List<string> options = new List<string> {"W", "A", "S", "D"};
-                    int index = -1;
-                    bool valid = false;
-                    string randomRoomOne = randomRooms[0];
-                    string randomRoomTwo = randomRooms[1];
-                    string randomRoomThree = randomRooms[2];
-                    string randomRoomFour = randomRooms[3];
+                    string choice;
+                    string choice2;
+                    
 
-                    Console.Clear();
-                    Console.WriteLine($"{playerName}, which room would you like to run to and hide in?"); 
-                    foreach (string room in randomRooms)
+                    if (player.GetCharacter().ToString() == "Runner")
                     {
-                        Console.WriteLine($" {options[index + 1]}. {room}");
-                        index = index + 1;
-                    }
-                    
-                    string roomChoice = Console.ReadLine();
-                    
-                    while (valid != true)
-                    {
-                        switch (roomChoice.ToUpper())
+                        choice = player.GetCharacter().RoomChoice(playerName, randomRooms);
+                        choice2 = computer.RoomChoice("Computer", randomRooms);
+                        
+                        selector.RemoveFromList(choice);
+                        bool gotCaught = compare.Compare(choice, choice2);
+
+                        if(gotCaught)
                         {
-                            case "W":
-                            selector.RemoveFromList(randomRoomOne);
-                            duration = duration - 1;
-                            valid = true;
-                            break;
-
-                            case "A":
-                            selector.RemoveFromList(randomRoomTwo);
-                            duration = duration - 1;
-                            valid = true;
-                            break;
-
-                            case "S":
-                            selector.RemoveFromList(randomRoomThree);
-                            duration = duration - 1;
-                            valid = true;
-                            break;
-
-                            case "D":
-                            selector.RemoveFromList(randomRoomFour);
-                            duration = duration - 1;
-                            valid = true;
-                            break;
-
-                            default:
-                            Console.WriteLine("That is not a valid entry. Please enter either W, A, S, or D.");
-                            valid = false;
-                            break;
+                            selector.Lose(player.GetCharacter().ToString());
+                            timer.Spinner(5);
+                            newDuration = 0;
                         }
+                        else if (gotCaught == false)
+                        {
+                            Console.WriteLine("The Runner was not found by the Chaser");
+                            timer.Spinner(2);
+                            hideSuccess += 1;
+                            newDuration = (newDuration - 1);
+                        }
+    
                     }
-                    
-                    
-                }
-                
-                selector.Exit(playerName);
 
+                    else if (player.GetCharacter().ToString() == "Chaser")
+                    {
+                        choice2 = computer.RoomChoice("Computer", randomRooms);
+                        choice = player.GetCharacter().RoomChoice(playerName, randomRooms);
+                        selector.RemoveFromList(choice);
+                        bool gotCaught = compare.Compare(choice, choice2);
+                        if(gotCaught)
+                        {
+                            selector.Win(playerName, player.GetCharacter().ToString());
+                            timer.Spinner(5);
+                            findSuccess += 1;
+                            newDuration = 0;
+                        }
+                        else if (gotCaught == false)
+                        {
+                            Console.WriteLine("The Runner was not found by the Chaser");
+                            timer.Spinner(2);
+                            newDuration = (newDuration - 1); 
+                        }                            
+                        
+                    }
+
+                    
+                } while (newDuration != 0);
+
+                if (hideSuccess == duration)
+                {
+                    selector.Win(playerName, "runner");
+                    timer.Spinner(5);
+                }
+
+                else if (findSuccess == 1)
+                {
+                    selector.Win(playerName, "chaser");
+                    timer.Spinner(5);
+                }
+                    
                 break; 
 
                 case 2: // Play against another player
 
-                Console.Clear();
-
-                Player p1 = new Player();
-                Player p2 = new Player();
-
-                Console.WriteLine("Player 1");
-                p1.SetName();
-                p1.SetCharacter(2, false, "none");
-                Console.WriteLine("Player 2");
-                p2.SetName();
-
-                p2.SetCharacter(2, true, p1.GetCharacter());
-                timer.SetDuration();
-
-                menu.PrintMessage("In this gamemode, you will be playing against each other. One of you in the runner and the other is the chaser. \nPlayer 1. You will use W A S and D to make your choice. \nPlayer 2. You will use I J K and L to make your choice.");
-                break;
-
-                case 3: 
-                break;
+               // CPU computer = new CPU();
+               // Player player = new Player(); 
+               // 
+               // Console.Clear();
+               // player.SetName();
+               // string playerName = player.GetName();
+               // player.SetCharacter(1, false, "none");
+               // timer.SetDuration();
+               // int duration = timer.GetDuration();
+               // int newDuration = duration;
+               // int hideSuccess = 0; 
+               // int findSuccess = 0;
+               // 
+               // menu.PrintMessage("In this gamemode you will play against the computer. \nYou will use W A S and D to make your choice");
+            //
+//
+               // selector.MakeList();
+//
+               // do
+               // {
+               //     List<string> randomRooms = selector.SelectRandomRooms(); //List of 4 random rooms
+               //     string randomRoomOne = randomRooms[0];
+               //     string randomRoomTwo = randomRooms[1];
+               //     string randomRoomThree = randomRooms[2];
+               //     string randomRoomFour = randomRooms[3];
+               //     string choice;
+               //     string choice2;
+               //     
+//
+               //     if (player.GetCharacter().ToString() == "Runner")
+               //     {
+               //         choice = player.GetCharacter().RoomChoice(playerName, randomRooms);
+               //         choice2 = computer.RoomChoice("Computer", randomRooms);
+               //         
+               //         selector.RemoveFromList(choice);
+               //         bool gotCaught = compare.Compare(choice, choice2);
+//
+               //         if(gotCaught)
+               //         {
+               //             selector.Lose(player.GetCharacter().ToString());
+               //             timer.Spinner(5);
+               //             newDuration = 0;
+               //         }
+               //         else if (gotCaught == false)
+               //         {
+               //             Console.WriteLine("The Runner was not found by the Chaser");
+               //             timer.Spinner(2);
+               //             hideSuccess += 1;
+               //             newDuration = (newDuration - 1);
+               //         }
+    //
+               //     }
+//
+               //     else if (player.GetCharacter().ToString() == "Chaser")
+               //     {
+               //         choice2 = computer.RoomChoice("Computer", randomRooms);
+               //         choice = player.GetCharacter().RoomChoice(playerName, randomRooms);
+               //         selector.RemoveFromList(choice);
+               //         bool gotCaught = compare.Compare(choice, choice2);
+               //         if(gotCaught)
+               //         {
+               //             selector.Win(playerName, player.GetCharacter().ToString());
+               //             timer.Spinner(5);
+               //             findSuccess += 1;
+               //             newDuration = 0;
+               //         }
+               //         else if (gotCaught == false)
+               //         {
+               //             Console.WriteLine("The Runner was not found by the Chaser");
+               //             timer.Spinner(2);
+               //             newDuration = (newDuration - 1); 
+               //         }                            
+               //         
+               //     }
+//
+               //     
+               // } while (newDuration != 0);
+//
+               // if (hideSuccess == duration)
+               // {
+               //     selector.Win(playerName, "runner");
+               //     timer.Spinner(5);
+               // }
+//
+               // else if (findSuccess == 1)
+               // {
+               //     selector.Win(playerName, "chaser");
+               //     timer.Spinner(5);
+               // }
 
                 
-
-                default:
-                Console.WriteLine("That is not a valid entry");
-                Console.WriteLine("Please enter a number between 1 and 3");
-                Thread.Sleep(3000);
                 break;
             }
         }
