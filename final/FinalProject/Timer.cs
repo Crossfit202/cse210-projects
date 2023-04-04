@@ -9,29 +9,54 @@ public class Timer
         _duration = int.Parse(Console.ReadLine());
     }
 
-    public void SetLevel()
+    public void SetLevel(string runnerOrChaser)
     {
         Console.WriteLine("What level would you like to play on?");
         Console.WriteLine(" 1. Easy \n 2. Medium \n 3. Hard");
         int input = int.Parse(Console.ReadLine());
 
-        switch(input)
+        if (runnerOrChaser.ToLower() == "runner")
         {
-            case 1:
-            _duration = 3;
-            _level = 1;
-            break;
+            switch(input)
+            {
+                case 1:
+                _duration = 3;
+                _level = 1;
+                break;
 
-            case 2:
-            _duration = 3;
-            _level = 2;
-            break;
+                case 2:
+                _duration = 3;
+                _level = 2;
+                break;
 
-            case 3:
-            _duration = 3;
-            _level = 3;
-            break;
+                case 3:
+                _duration = 3;
+                _level = 3;
+                break;
 
+            }
+        }
+
+        else if (runnerOrChaser.ToLower() == "chaser")
+        {
+            switch(input)
+            {
+                case 1:
+                _duration = 3;
+                _level = 3;
+                break;
+
+                case 2:
+                _duration = 3;
+                _level = 2;
+                break;
+
+                case 3:
+                _duration = 3;
+                _level = 1;
+                break;
+
+            }   
         }
     }
 

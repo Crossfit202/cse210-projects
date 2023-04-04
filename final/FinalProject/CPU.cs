@@ -8,7 +8,7 @@ public class CPU : Character
         _level = level;
     }
 
-    public override string RoomChoice(string playerName, List<string> randomRooms)
+    public override string RoomChoice(int playerCount, string playerName, List<string> randomRooms, string character)
     {
 
         Timer timer = new Timer();

@@ -29,13 +29,13 @@ public class Player
             {
                 case "r":
                 _character = new Runner();
-                Console.WriteLine("You have chosen to be the Runner");
+                Console.WriteLine("\nYou have chosen to be the Runner");
                 valid = true;
                 break;
     
                 case "c":
                 _character = new Chaser();
-                Console.WriteLine("You have chosen to be the Chaser");
+                Console.WriteLine("\nYou have chosen to be the Chaser");
                 valid = true;
                 break;
                 
@@ -49,16 +49,16 @@ public class Player
             
         }
 
-        else if (playerCount == 2 && chosen == true && role.ToLower() == "r")
+        else if (playerCount == 2 && chosen == true && role.ToLower() == "runner")
         {
             _character = new Chaser();
-            Console.WriteLine("Player 2. You are the Chaser");
+            Console.WriteLine("\nPlayer 2. You are the Chaser");
         }
 
-         else if (playerCount == 2 && chosen == true & role.ToLower() == "c")
+         else if (playerCount == 2 && chosen == true & role.ToLower() == "chaser")
         {
             _character = new Runner();
-            Console.WriteLine("Player 2. You are the Runner");
+            Console.WriteLine("\nPlayer 2. You are the Runner");
         }
 
         else if (playerCount == 1)
